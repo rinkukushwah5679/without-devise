@@ -1,0 +1,16 @@
+<%= form_for( :user , :url=> session_create_users_path) do |f| %>
+	<%= flash[:notice]%>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "sign in" %>
+  </div>
+<% end %>

@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Password:</strong>
+  <%= @user.password %>
+</p>
+
+
+<h3>Comments:</h3>
+<% Comment.where(:user_id =>  @user.id).each do |comment|%>
+  <p>
+    <strong>title:</strong>
+    <%= comment.title %>
+  </p>
+	<%# if Like.where(:comment_id=>comment.id, :user_id=>current_user.id).present? %>
+	  <%= form_tag '/like', :method => 'get' do %>
+	    <%= hidden_field_tag "comment_id" ,nil ,:value => comment.id%>
+	    <p>
+	      <%= submit_tag "like(#{Like.where(:comment_id=> comment.id, :flag=>'like').count})", :name => nil %>
+	    </p>
+	  <% end %>
+	  <%#else%>
+	    <%= form_tag '/unlike', :method => 'get' do %>
+		    <%= hidden_field_tag "comment_id" ,nil ,:value => comment.id%>
+		    <p>
+		      <%= submit_tag "unlike(#{Like.where(:comment_id=> comment.id, :flag=>'unlike').count})", :name => nil %>
+		    </p>
+	  <% end %>
+	<%#end%>
+<%end%>	
+<%= form_tag '/create_comment', :method => 'get' do %>
+  <%= hidden_field_tag "user_id" ,nil ,:value => @user.id%>
+  <p>
+    <%= text_field_tag :title %>
+    <%= submit_tag "create comment"%>
+  </p>
+<% end %>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
